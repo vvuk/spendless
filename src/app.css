@@ -1,0 +1,123 @@
+@import '@fontsource-variable/instrument-sans';
+
+:root {
+	color-scheme: light;
+	--plane: #f6f6f3;
+	--surface: #fcfcfb;
+	--ink: #0b0b0b;
+	--ink-2: #52514e;
+	--ink-3: #898781;
+	--grid: #e6e5df;
+	--rule: #d6d5ce;
+	--wash: rgba(11, 11, 11, 0.035);
+	--flex: #2a78d6;       /* money you control */
+	--flex-soft: #cde2fb;
+	--fixed: #c9c7bd;      /* fixed costs: present, not shouting */
+	--income: #1baf7a;     /* recurring income (categorical aqua, not the status green) */
+	--other-in: #eda100;   /* other money in: stock sales, one-offs (categorical yellow) */
+	--up: #c4532a;         /* price increase text (status "serious", darkened for text contrast) */
+	--up-mark: #ec835a;
+	--good: #006300;
+	--good-mark: #0ca30c;
+	--focus: #2a78d6;
+	--font: 'Instrument Sans Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+	:root:where(:not([data-theme='light'])) {
+		color-scheme: dark;
+		--plane: #121211;
+		--surface: #1a1a19;
+		--ink: #f0efec;
+		--ink-2: #c3c2b7;
+		--ink-3: #8f8d86;
+		--grid: #2c2c2a;
+		--rule: #3a3a37;
+		--wash: rgba(255, 255, 255, 0.05);
+		--flex: #3987e5;
+		--flex-soft: #1c3a5e;
+		--fixed: #55544f;
+		--income: #199e70;
+		--other-in: #c98500;
+		--up: #ec835a;
+		--up-mark: #ec835a;
+		--good: #0ca30c;
+		--good-mark: #0ca30c;
+	}
+}
+:root[data-theme='dark'] {
+	color-scheme: dark;
+	--plane: #121211; --surface: #1a1a19; --ink: #f0efec; --ink-2: #c3c2b7; --ink-3: #8f8d86;
+	--grid: #2c2c2a; --rule: #3a3a37; --wash: rgba(255, 255, 255, 0.05); --flex: #3987e5; --flex-soft: #1c3a5e;
+	--fixed: #55544f; --income: #199e70; --other-in: #c98500; --up: #ec835a; --up-mark: #ec835a; --good: #0ca30c; --good-mark: #0ca30c;
+}
+
+* { box-sizing: border-box; }
+html { background: var(--plane); }
+body {
+	margin: 0;
+	font-family: var(--font);
+	font-size: 14px;
+	line-height: 1.45;
+	color: var(--ink);
+	background: var(--plane);
+	-webkit-font-smoothing: antialiased;
+	font-feature-settings: 'ss01';
+}
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; border-radius: 3px; }
+h1, h2, h3 { margin: 0; font-weight: 600; letter-spacing: -0.01em; }
+h2 { font-size: 15px; }
+.num { font-variant-numeric: tabular-nums; }
+.muted { color: var(--ink-3); }
+.ink2 { color: var(--ink-2); }
+.up { color: var(--up); }
+.good { color: var(--good); }
+
+button, select, input {
+	font: inherit;
+	color: inherit;
+}
+.btn {
+	border: 1px solid var(--rule);
+	background: var(--surface);
+	border-radius: 6px;
+	padding: 4px 10px;
+	cursor: pointer;
+	font-size: 13px;
+}
+.btn:hover { background: var(--wash); }
+.btn[disabled] { opacity: 0.5; cursor: progress; }
+
+table.data { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+table.data th {
+	text-align: left; font-weight: 500; color: var(--ink-3); font-size: 12px;
+	padding: 0 8px 6px; border-bottom: 1px solid var(--rule); white-space: nowrap;
+}
+table.data td { padding: 5px 8px; border-bottom: 1px solid var(--grid); vertical-align: middle; }
+table.data tr:hover td { background: var(--wash); }
+table.data .r { text-align: right; }
+table.data th:first-child, table.data td:first-child { padding-left: 0; }
+table.data th:last-child, table.data td:last-child { padding-right: 0; }
+
+.tip {
+	position: absolute; pointer-events: none; z-index: 10;
+	background: var(--surface); color: var(--ink);
+	border: 1px solid var(--rule); border-radius: 6px;
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+	padding: 6px 9px; font-size: 12px; white-space: nowrap; font-variant-numeric: tabular-nums;
+}
+.tip b { font-weight: 600; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+
+/* sortable table headers (SortTh.svelte) */
+table.data th .sortbtn {
+	all: unset; cursor: pointer; display: inline-flex; align-items: center; gap: 3px;
+	color: inherit; font: inherit; white-space: nowrap; border-radius: 3px;
+}
+table.data th .sortbtn:hover, table.data th .sortbtn.on { color: var(--ink); }
+table.data th .sortbtn:focus-visible { outline: 2px solid var(--focus); outline-offset: 2px; }
+table.data th .sortbtn .arr { font-size: 11px; width: 0.8em; text-align: center; visibility: hidden; }
+table.data th .sortbtn:hover .arr { visibility: visible; color: var(--ink-3); }
+table.data th .sortbtn.on .arr { visibility: visible; color: var(--ink); }

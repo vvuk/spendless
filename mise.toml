@@ -1,0 +1,56 @@
+# Tool versions and tasks for Spendless. `mise install` once, then `mise run <task>`.
+
+[tools]
+# node:sqlite needs Node >= 22.13; built and tested on 22.x
+node = "22"
+
+[env]
+# node:sqlite still prints an ExperimentalWarning on every start
+NODE_OPTIONS = "--disable-warning=ExperimentalWarning"
+
+[tasks.install]
+description = "Install npm dependencies"
+run = "npm install"
+sources = ["package.json", "package-lock.json"]
+outputs = ["node_modules/.package-lock.json"]
+
+[tasks.dev]
+description = "Run the app at http://127.0.0.1:5173"
+depends = ["install"]
+run = "npx vite dev"
+
+[tasks.build]
+description = "Production build (adapter-node, output in build/)"
+depends = ["install"]
+run = "npx vite build"
+
+[tasks.start]
+description = "Serve the production build"
+depends = ["build"]
+run = "node build"
+env = { HOST = "127.0.0.1", PORT = "3000" }
+
+[tasks.check]
+description = "Type-check Svelte and TypeScript"
+depends = ["install"]
+run = "npx svelte-kit sync && npx svelte-check --tsconfig ./tsconfig.json"
+
+[tasks."import:csv"]
+description = "Import the newest Monarch CSV in data/ (or pass a path)"
+depends = ["install"]
+run = "npx tsx scripts/import-csv.ts"
+
+[tasks.sync]
+description = "Sync from Monarch's MCP server (first run opens your browser to approve)"
+depends = ["install"]
+run = "npx tsx scripts/sync.ts"
+
+[tasks.benefits]
+description = "Credit card benefits report (-- --classify asks the LLM about fuzzy cases, -- --detail <card/benefit>)"
+depends = ["install"]
+run = "npx tsx scripts/benefits.ts"
+
+[tasks.recurring]
+description = "Print detected recurring charges (--all includes stopped)"
+depends = ["install"]
+run = "npx tsx scripts/recurring.ts"
