@@ -39,7 +39,8 @@
 					return async ({ result, update }) => {
 						syncing = false;
 						if (result.type === 'failure') syncMsg = String((result.data as { error?: string })?.error ?? 'Sync failed');
-						await update();
+						// stay on this page and reload its data, rather than following the form to /sync
+						await update({ navigate: false });
 					};
 				}}
 			>
